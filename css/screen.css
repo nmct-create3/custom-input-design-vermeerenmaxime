@@ -56,7 +56,37 @@
     --global-whitespace-lg: calc(var(--global-baseline) * 4); /*  = 32px */
     --global-whitespace-xl: calc(var(--global-whitespace) * 2); /*  = 48px */
     --global-whitespace-xxl: calc(var(--global-whitespace) * 3); /*  = 72px */
+
+    --global-input-backgroundColor: White;
+    --global-input-color: var(--global-color-neutral-xxxx-dark);
+    --global-input-borderColor: var(--global-color-neutral-xxx-light);
+    --global-input-hover-borderColor: var(--global-color-neutral-xx-light);
+    --global-input-focus-borderColor: var(--global-color-alpha);
+    --global-input-boxShadow: 0 0 0 3px var(--global-color-alpha-x-transparent);
+
+    --global-card-backgroundColor:White;
+
+    --color-neutral-xxx-dark:var(--global-color-neutral-xxx-dark);
+    --color-neutral-xxxx-dark: var(--global-color-neutral-xxxx-dark);
+    
 }
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --global-page-color: White;
+        --global-page-backgroundColor: var(--color-neutral-xxxx-dark);
+        --global-card-backgroundColor:var(--color-neutral-xxx-dark);
+        --global-input-backgroundColor:var(--color-neutral-xxxx-dark);
+        --global-input-borderColor:var(--color-neutral-xxxx-dark);
+        --global-input-color:white;
+    }
+}
+
+html {
+    color: var(--global-page-color); 
+    background-color: var(--global-page-backgroundColor);
+}
+
 
 /*------------------------------------*\
 #GENERIC
@@ -77,6 +107,12 @@ html {
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;    
+}
+
+@media (prefers-color-scheme: dark) {
+    html {
+        background-color: var(--color-neutral-xxxx-dark);
+    }
 }
 
 *,
@@ -211,6 +247,7 @@ a:visited {
     outline-color: var(--global-link-BoxShadowColor);
     outline-width: medium;
     outline-offset: 2px;
+    text-decoration:none;
 }
 
 a:hover,
@@ -514,15 +551,23 @@ input::placeholder {
 }
 
 .c-logo__path--1 {
-    fill: var(--global-color-neutral-xxxx-dark);
+    fill: var(--logo__path--1--fill, var(--global-color-neutral-xxxx-dark));
 }
 
 .c-logo__path--2 {
-    fill: var(--global-color-alpha);
+    fill: var(--logo__path--2--fill, var(--global-color-alpha));
 }
 
 .c-logo__path--3 {
-    fill: var(--color-alpha-x-dark);
+    fill: var(--logo__path--3--fill, var(--global-color-alpha-x-dark));
+}
+
+@media (prefers-color-scheme: dark) {
+    .c-logo {
+        --logo__path--1--fill: White;
+        --logo__path--2--fill: var(--logo__path--1--fill);
+        --logo__path--3--fill: var(--logo__path--1--fill);
+    }
 }
 
 /*
@@ -532,12 +577,14 @@ input::placeholder {
 */
 
 .c-card {
-    background-color: White;
+    background-color: var(--global-card-backgroundColor);
     margin-bottom: var(--global-whitespace);
     border-radius: var(--global-borderRadius);
     box-shadow: 0 0 0 var(--global-borderWidth) rgba(0,0,0, 0.05), 0 2px 4px rgba(0,0,0,.075);
     overflow: hidden;
 }
+
+
 
 /* Add padding to child for more flexibility */
 .c-card__body,
@@ -547,7 +594,7 @@ input::placeholder {
 
 .c-card__footer {
     text-align: center;
-    border-top: var(--global-borderWidth) solid var(--global-color-neutral-xxx-light);
+    border-top: var(--global-borderWidth) solid var(--global-input-borderColor);
 }
 
 .c-card__title {
@@ -556,6 +603,12 @@ input::placeholder {
     line-height: calc(var(--global-baseline) * 3);
     font-weight: 600;
 }
+
+@media (prefers-color-scheme: dark) {
+    .c-card__title {
+        color:white;
+    }
+  }
 
 /* This allows c-card__body and __footer to have equal padding everywhere */
 
@@ -601,10 +654,10 @@ input::placeholder {
     -moz-appearance: none;
     appearance: none;
     width: 100%;
-    border: var(--global-borderWidth) solid var(--global-color-neutral-xxx-light);
-    border-radius: var(--global-borderRadius);
-    color: var(--global-color-neutral-xxxx-dark);
-    background-color: White;
+    border: var(--global-borderWidth) solid var(--global-input-borderColor);
+    border-radius:var(--global-borderRadius);
+    background-color: var(--global-input-backgroundColor);
+    color: var(--global-input-color);
     font-family: inherit;
     font-size: 16px;
     line-height: calc(var(--global-baseline) * 3);
@@ -614,12 +667,13 @@ input::placeholder {
 }
 
 .c-input:hover {
-    border-color: var(--global-color-neutral-xx-light);
+    border-color: var(--global-input-borderColor);
 }
+
 
 .c-input:focus,
 .c-input:active {
-    border-color: var(--global-color-alpha);
+    border-color: var(--global-input-borderColor);
     box-shadow: 0 0 0 3px var(--global-color-alpha-x-transparent);
 }
 
@@ -627,6 +681,186 @@ input::placeholder {
 
 .c-option {
     margin-right: var(--global-whitespace-sm);
+}
+
+.c-option--hidden:checked + .c-custom-option {
+    
+      /* Do magic stuff here, for example: */
+      /* background-color: red; */
+
+      /* opacity:0; */
+   
+}
+
+.c-option--hidden:checked + .c-custom-option .c-custom-option__symbol {
+    
+      /* Do magic stuff here, for example: */
+      /* fill: blue; */
+      opacity:1;
+      transform: rotate(360deg);
+
+}
+
+/* .c-option--hidden:focus, .c-option--hidden:active {
+    border:1px solid var(--global-input-focus-borderColor);
+    box-shadow:var(--global-input-boxShadow);
+} */
+
+.c-option-list{
+    margin-bottom:24px;
+}
+
+.c-option-list__item{
+    margin-bottom:12px;
+}
+
+.c-custom-option{
+    display:flex;
+    --custom-option-borderColor: var(--global-input-borderColor);
+    --custom-option-focus-borderColor: var(--global-input-focus-borderColor);
+}
+
+.custom-option:hover{
+    --custom-option-borderColor: var(--custom-option-hover-borderColor);
+}
+
+.c-custom-option__fake-input{
+    display:flex;
+    width:16px;
+    height:16px;
+    border: 1px solid var(--custom-option-borderColor);
+    margin-right:8px;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease-in;
+    cursor:pointer;
+}
+
+.c-custom-option__fake-input:hover {
+    border:1px solid var(--global-input-hover-borderColor);
+}
+
+.c-option--hidden:focus + .c-custom-option .c-custom-option__fake-input, 
+.c-option--hidden:active + .c-custom-option .c-custom-option__fake-input {
+    box-shadow: var(--global-input-boxShadow);
+    border:1px solid #3385FF;
+}
+
+.c-custom-option__fake-input--checkbox{
+    border-radius: var(--global-borderRadius);
+    
+}
+
+.c-custom-option__fake-input--radio{
+    border-radius: 100%;
+}
+
+.c-custom-option__symbol{
+    opacity:0;
+    display:block;
+    transition:opacity 0.1s ease-in, transform 0.2s linear; 
+}
+
+.c-custom-option__fake-input--checkbox .c-custom-option__symbol {
+    width:10px;
+    height:10px;
+    fill:var(--global-color-alpha);
+}
+
+.c-custom-option__fake-input--radio .c-custom-option__symbol {
+    width:6px;
+    height:6px;
+    background:var(--global-color-alpha);
+    border-radius:100%;
+}
+.c-custom-toggle{
+    display:flex;
+    align-items:center;
+}
+.c-custom-toggle__fake-input{
+    display:flex;
+    width:48px;
+    height:24px;
+    border: 1px solid var(--global-input-borderColor);
+    background:var(--global-input-backgroundColor);
+    border-radius:50px;
+    margin-right:8px;
+    cursor:pointer;
+    transition: all 0.1s ease-in;
+}
+
+.c-custom-toggle__fake-input::after{
+    transition: all var(--transition-alpha);
+    content:"";
+    background:var(--global-input-backgroundColor);
+    border-radius:50px;
+    width:22px;
+    height:22px;
+    box-shadow:0 1px 3px #00000030;
+    transition: all 0.1s ease-in;
+}
+
+.c-custom-select{
+    display:block;
+}
+
+.c-custom-select__symbol{
+    fill:var(--global-input-borderColor);
+    width:24px;
+    display:block;
+    /* padding:50px; */
+    position:absolute;
+    right:14px;
+    margin-top:-36px;
+    /* top:0; */
+}
+
+
+.c-option--hidden:checked + .c-custom-toggle .c-custom-toggle__fake-input::after{
+    transform: translateX(24px);
+
+}
+
+.c-option--hidden:checked + .c-custom-toggle .c-custom-toggle__fake-input{
+    background:#3385FF;
+    border:1px solid #2E77E6;
+}
+
+.c-option--hidden:focus + .c-custom-toggle .c-custom-toggle__fake-input,
+.c-option--hidden:active + .c-custom-toggle .c-custom-toggle__fake-input{
+    box-shadow:var(--global-input-boxShadow);
+    border:1px solid var(--global-input-focus-borderColor);
+}
+
+.c-option--hidden:active + .c-custom-toggle .c-custom-toggle__fake-input::after {
+    width:30px;
+}
+
+.c-option--hidden:active:checked + .c-custom-toggle .c-custom-toggle__fake-input::after {
+    width:30px;
+    margin-left:-8px;
+}
+
+.c-toggle-list__item{
+    display:flex;
+    margin-bottom:var(--global-whitespace-sm);
+}
+
+.c-toggle-list__item:not(:first-child){
+    border-top:1px solid var(--global-input-borderColor);
+    padding-top:var(--global-whitespace-sm);
+
+}
+
+.c-toggle-list__item .c-custom-toggle__fake-input{
+    margin-right:0;
+}
+
+.c-custom-toggle--inverted{
+    width:100%;
+    flex-direction:row-reverse;
+    justify-content:space-between;
+    align-items:center;
 }
 
 /*
@@ -640,7 +874,14 @@ input::placeholder {
     font-size: 14px;
     padding-bottom: var(--global-whitespace-xs);    
     line-height: calc(var(--global-baseline) * 2);
-    color: var(--global-color-neutral-xx-dark);
+    color: var(--global-color-neutral-xx-dark);   
+}
+
+@media (prefers-color-scheme: dark){
+    .c-label {
+        color: var(--global-color-neutral-x-light);  
+    }
+     
 }
 
 .c-label--option {
